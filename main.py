@@ -1,50 +1,33 @@
-import json
 import os
 
 import requests
 from dotenv import load_dotenv
 
-from itertools import count
 
-
-def download_image(url) -> requests.Response:
-    response: requests.Response = requests.get(url)
-    response.raise_for_status()
-    return response
-
-
-def get_comics_description(comics_number):
-    url = f'https://xkcd.com/{comics_number}/info.0.json'
-    response: requests.Response = requests.get(url)
+def get_comic_data(comic_number: int) -> dict:
+    url = f"https://xkcd.com/{comic_number}/info.0.json"
+    response = requests.get(url)
     response.raise_for_status()
     return response.json()
 
 
-def get_groups_description_vk(access_token: str) -> dict:
-    params = {
-        'access_token': access_token,
-        'extended': 1,  # Full group description
-        'v': 5.131,  # API version
-    }
-    url = f'https://api.vk.com/method/groups.get'
-    response: requests.Response = requests.get(url=url, params=params)
+def download_comic_img(url: str) -> None:
+    file_name = 'comic.png'
+    response = requests.get(url)
     response.raise_for_status()
-    return response.json()
-
-
-def get_upload_url_group_vk(access_token: str) -> None:
-
+    with open(file_name, 'wb') as file:
+        file.write(response.content)
 
 
 def main():
-    vk_access_token = os.getenv('VK_ACCESS_TOKEN')
-    for comics_number in count(1):
-        # comics_description = get_comics_description(comics_number)
-        # comics_img = download_image(comics_description['img'])
-        # author_comment = comics_description['alt']
-        groups_description = get_groups_description_vk(access_token=vk_access_token)
-        with open('vk.json', 'w', encoding='utf-8') as write_file:
-            json.dump(groups_description, write_file, ensure_ascii=False, indent=4)
+    vk_access_token = os.getenv('VK_APP_CODE')
+    vk_group_id = os.getenv('VK_APP_ID')
+
+    comics_description = get_comic_data(comic_number=64)
+    comic_img = comics_description['img']
+    download_comic_img(url=comic_img)
+    comic_comment = comics_description['alt']
+    print(comic_comment)
 
 
 if __name__ == '__main__':
