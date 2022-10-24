@@ -1,5 +1,5 @@
 *.jpeg
-*jpg
+*.jpg
 *.json
 venv/
 .env
