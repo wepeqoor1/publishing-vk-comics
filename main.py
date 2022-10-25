@@ -33,7 +33,7 @@ def get_groups_description_vk(access_token: str) -> dict:
 
 
 def get_upload_url_group_vk(access_token: str) -> None:
-
+    pass
 
 
 def main():
