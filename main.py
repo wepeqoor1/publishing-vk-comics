@@ -23,17 +23,22 @@ def main():
     comic_img = comics_description['img']
     download_comic_img(url=comic_img)
     # comic_comment = comics_description['alt']
-    upload_url_photo = get_address_for_upload_photo(
+    upload_url = get_address_for_upload_photo(
         vk_access_token=vk_access_token,
         vk_group_id=vk_group_id,
         version_api=VERSION_API
     )
-    print(upload_url_photo)
+    if not upload_url:
+        print('Не удалось получить адрес загрузки фото')
+        exit(0)
+
+    print(upload_url)
     data_from_upload_photo = upload_photo_to_server(
         vk_access_token=vk_access_token,
         vk_group_id=vk_group_id,
         version_api=VERSION_API,
-        img_name=COMIC_IMG_NAME
+        img_name=COMIC_IMG_NAME,
+        upload_url=upload_url,
     )
     print(data_from_upload_photo)
 
