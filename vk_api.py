@@ -53,6 +53,7 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
     response = requests.post(url=url, params=params)
     response.raise_for_status()
     api_response = response.json()
+    print(api_response)
 
     owner_id = api_response['response'][0]['owner_id']
     media_id = api_response['response'][0]['id']
@@ -62,6 +63,19 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
     return attachment
 
 
-def publish_in_wall_group():
-    """Публикует зхаписи в группе"""
-    pass
+def publish_comic_on_wall(vk_group_id: str, vk_access_token: str, message: str, attachments: str) -> None:
+    """
+    Публикуем комикс на стене сообзества
+    """
+    url = 'https://api.vk.com/method/wall.post'
+    params = {
+        'access_token': vk_access_token,
+        'message': message,
+        'owner_id': f'-{vk_group_id}',
+        'from_group': 1,
+        'attachments': attachments,
+        'v': VK_VERSION_API
+    }
+
+    response = requests.get(url=url, params=params)
+    response.raise_for_status()
