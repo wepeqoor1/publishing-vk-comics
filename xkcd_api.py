@@ -1,6 +1,13 @@
 import requests
 
 
+def get_count_comics() -> int:
+    url = f"https://xkcd.com/info.0.json"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()['num']
+
+
 def get_comic_data(comic_number: int) -> dict:
     url = f"https://xkcd.com/{comic_number}/info.0.json"
     response = requests.get(url)

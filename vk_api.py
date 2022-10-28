@@ -7,8 +7,7 @@ COMIC_IMG_NAME = 'comic.png'
 
 def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str | None:
     """Получает адресс для загрузки фото"""
-    method = 'photos.getWallUploadServer'
-    url = f'https://api.vk.com/method/{method}/'
+    url = f'https://api.vk.com/method/photos.getWallUploadServer/'
     params = {
         'access_token': vk_access_token,
         'group_id': vk_group_id,
@@ -53,7 +52,6 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
     response = requests.post(url=url, params=params)
     response.raise_for_status()
     api_response = response.json()
-    print(api_response)
 
     owner_id = api_response['response'][0]['owner_id']
     media_id = api_response['response'][0]['id']
@@ -63,7 +61,7 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
     return attachment
 
 
-def publish_comic_on_wall(vk_group_id: str, vk_access_token: str, message: str, attachments: str) -> None:
+def publish_comic_on_wall(vk_group_id: str, vk_access_token: str, message: str, attachments: str) -> requests.Response:
     """
     Публикуем комикс на стене сообзества
     """
@@ -79,3 +77,4 @@ def publish_comic_on_wall(vk_group_id: str, vk_access_token: str, message: str, 
 
     response = requests.get(url=url, params=params)
     response.raise_for_status()
+    return response
