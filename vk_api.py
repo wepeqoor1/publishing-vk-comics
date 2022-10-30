@@ -31,8 +31,8 @@ def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: s
             'photo': image
         }
         response = requests.post(upload_url, params=params, files=files)
-        response.raise_for_status()
-        return response.json()
+    response.raise_for_status()
+    return response.json()
 
 
 def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str, server: str, hash_: str) -> str:
