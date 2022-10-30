@@ -33,7 +33,6 @@ def main():
     )
     if not upload_url:
         print('Не удалось получить адрес загрузки фото')
-        exit(0)
 
     try:
         download_img(url=comic_img_url)
