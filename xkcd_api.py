@@ -22,11 +22,3 @@ def get_comic_data() -> ComicData:
     comic = response.json()
 
     return ComicData(img_url=comic['img'], comment=comic['alt'])
-
-
-def download_comic_img(url: str) -> None:
-    file_name = 'comic.png'
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(file_name, 'wb') as file:
-        file.write(response.content)
