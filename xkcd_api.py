@@ -1,3 +1,4 @@
+import random
 from typing import NamedTuple
 
 import requests
@@ -14,9 +15,10 @@ def get_comic_data() -> ComicData:
     response = requests.get(last_comic_url)
     response.raise_for_status()
     last_comic = response.json()['num']
+    random_comic = random.randint(1, last_comic)
 
     # Получаем данные по конкретному комиксу
-    url = f"https://xkcd.com/{last_comic}/info.0.json"
+    url = f"https://xkcd.com/{random_comic}/info.0.json"
     response = requests.get(url)
     response.raise_for_status()
     comic = response.json()

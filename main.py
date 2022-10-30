@@ -37,15 +37,13 @@ def main():
 
     try:
         download_img(url=comic_img_url)
-        data_upload_photo = upload_photo_to_server(
+        server, photo, hash_ = upload_photo_to_server(
             vk_access_token=vk_access_token,
             vk_group_id=vk_group_id,
             upload_url=upload_url,
         )
     finally:
         os.remove(COMIC_IMG_NAME)
-
-    server, photo, hash_ = data_upload_photo['server'], data_upload_photo['photo'], data_upload_photo['hash']
 
     attachment = save_photo_in_album_group(
         vk_group_id=vk_group_id, vk_access_token=vk_access_token,

@@ -1,8 +1,16 @@
+from typing import NamedTuple
+
 import requests
 
 
 VK_VERSION_API = 5.131
 COMIC_IMG_NAME = 'comic.png'
+
+
+class UploadComicResponse(NamedTuple):
+    server: str
+    photo: str
+    hash_: str
 
 
 def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str | None:
@@ -18,7 +26,7 @@ def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str 
     return response.json().get('response')['upload_url']
 
 
-def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: str) -> dict:
+def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: str) -> UploadComicResponse:
     """Загружает фото на сервер"""
     params = {
         'access_token': vk_access_token,
@@ -32,7 +40,9 @@ def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: s
         }
         response = requests.post(upload_url, params=params, files=files)
     response.raise_for_status()
-    return response.json()
+    upload_comic = response.json()
+
+    return UploadComicResponse(upload_comic['server'], upload_comic['photo'], upload_comic['hash'])
 
 
 def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str, server: str, hash_: str) -> str:
@@ -63,7 +73,7 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
 
 def publish_comic_on_wall(vk_group_id: str, vk_access_token: str, message: str, attachments: str) -> requests.Response:
     """
-    Публикуем комикс на стене сообзества
+    Публикуем комикс на стене сообщества
     """
     url = 'https://api.vk.com/method/wall.post'
     params = {
