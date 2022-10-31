@@ -3,7 +3,6 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from exceptions import VKCodeExceptions
 from vk_api import (
     get_address_for_upload_photo,
     upload_photo_to_server,
