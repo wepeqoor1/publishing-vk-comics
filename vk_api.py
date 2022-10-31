@@ -26,11 +26,11 @@ def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str 
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    vk_response = response.json()
-    if vk_response.get('error'):
-        raise VKCodeExceptions(vk_response)
+    api_response = response.json()
+    if api_response.get('error'):
+        raise VKCodeExceptions(api_response)
     else:
-        return vk_response.get('response')['upload_url']
+        return api_response.get('response')['upload_url']
 
 
 def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: str) -> UploadComicResponse:
@@ -48,11 +48,11 @@ def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: s
         response = requests.post(upload_url, params=params, files=files)
     response.raise_for_status()
 
-    upload_comic = response.json()
-    if upload_comic.get('error'):
-        raise VKCodeExceptions(upload_comic)
+    api_response = response.json()
+    if api_response.get('error'):
+        raise VKCodeExceptions(api_response)
     else:
-        return UploadComicResponse(upload_comic['server'], upload_comic['photo'], upload_comic['hash'])
+        return UploadComicResponse(api_response['server'], api_response['photo'], api_response['hash'])
 
 
 def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str, server: str, hash_: str) -> str:
