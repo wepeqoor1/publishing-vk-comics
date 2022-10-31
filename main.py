@@ -3,6 +3,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
+from exceptions import VKCodeExceptions
 from vk_api import (
     get_address_for_upload_photo,
     upload_photo_to_server,
@@ -56,9 +57,11 @@ def main():
         attachments=attachment
     )
 
-    print('Комикс опубликован на стене')
-
 
 if __name__ == '__main__':
     load_dotenv()
-    main()
+    try:
+        main()
+        print('Комикс опубликован на стене')
+    except VKCodeExceptions as error:
+        pass

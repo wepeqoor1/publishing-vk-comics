@@ -15,13 +15,15 @@ class UploadComicResponse(NamedTuple):
 
 def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str | None:
     """Получает адресс для загрузки фото"""
-    url = f'https://api.vk.com/method/photos.getWallUploadServer/'
+    url = f'https://api.vk.com/method/photos.getWallUploadServe/'
     params = {
         'access_token': vk_access_token,
         'group_id': vk_group_id,
         'v': VK_VERSION_API
     }
     response = requests.get(url, params=params)
+    print(response.status_code)
+    print(response.json())
     response.raise_for_status()
     return response.json().get('response')['upload_url']
 
