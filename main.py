@@ -60,8 +60,4 @@ def main():
 
 if __name__ == '__main__':
     load_dotenv()
-    try:
-        main()
-        print('Комикс опубликован на стене')
-    except VKCodeExceptions as error:
-        pass
+    main()

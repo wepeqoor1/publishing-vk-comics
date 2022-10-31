@@ -1,7 +1,8 @@
-# {'error': {'error_code': 3, 'error_msg': 'Unknown method passed', 'request_params': [{'key': 'group_id', 'value': '215521916'}, {'key': 'v', 'value': '5.131'}, {'key': 'method', 'value': 'photos.getWallUploadServe'}, {'key': 'oauth', 'value': '1'}]}}
+import json
+
 class VKCodeExceptions(Exception):
-    def __init__(self, error_code: int):
-        self.error_code = error_code
+    def __init__(self, message: dict):
+        self.message = message
 
-
-    return self.error_code
+    def __str__(self):
+        return f"VK API ERROR: \n{json.dumps(self.message, indent=4, sort_keys=True)}"
