@@ -4,7 +4,7 @@ from typing import NamedTuple
 import requests
 
 
-def get_comic_data() -> tuple:
+def get_last_comic_number() -> tuple:
     # Получаем номер последнего комикса
     last_comic_url = f"https://xkcd.com/info.0.json"
     response = requests.get(last_comic_url)

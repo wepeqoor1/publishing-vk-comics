@@ -9,7 +9,7 @@ from vk_api import (
     save_photo_in_album_group,
     publish_comic_on_wall
 )
-from xkcd_api import get_comic_data
+from xkcd_api import get_last_comic_number
 
 COMIC_IMG_NAME = 'comic.png'
 
@@ -27,7 +27,7 @@ def main():
     vk_access_token = os.getenv('VK_ACCESS_TOKEN')
     vk_group_id = os.getenv('VK_GROUP_ID')
 
-    comic_img_url, comic_comment = get_comic_data()
+    comic_img_url, comic_comment = get_last_comic_number()
 
     upload_url = get_address_for_upload_photo(
         vk_access_token=vk_access_token,
