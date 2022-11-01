@@ -4,12 +4,7 @@ from typing import NamedTuple
 import requests
 
 
-class ComicData(NamedTuple):
-    img_url: str
-    comment: str
-
-
-def get_comic_data() -> ComicData:
+def get_comic_data() -> tuple:
     # Получаем номер последнего комикса
     last_comic_url = f"https://xkcd.com/info.0.json"
     response = requests.get(last_comic_url)
@@ -23,4 +18,4 @@ def get_comic_data() -> ComicData:
     response.raise_for_status()
     comic = response.json()
 
-    return ComicData(img_url=comic['img'], comment=comic['alt'])
+    return comic['img'], comic['alt']

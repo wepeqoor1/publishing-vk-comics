@@ -3,18 +3,6 @@ import os
 import requests
 from dotenv import load_dotenv
 
-
-def get_upload_url_group_vk(access_token: str) -> None:
-    pass
-=======
-    with open(file_name, 'wb') as file:
-        file.write(response.content)
->>>>>>> 67de17ad807885647ce3fc5c2043b34ce7d68f29
-
-
-def main():
-    vk_access_token = os.getenv('VK_APP_CODE')
-=======
 from vk_api import (
     get_address_for_upload_photo,
     upload_photo_to_server,
@@ -34,6 +22,8 @@ def download_img(url: str) -> None:
 
 
 def main():
+    load_dotenv()
+
     vk_access_token = os.getenv('VK_ACCESS_TOKEN')
     vk_group_id = os.getenv('VK_GROUP_ID')
 
@@ -70,5 +60,4 @@ def main():
 
 
 if __name__ == '__main__':
-    load_dotenv()
     main()

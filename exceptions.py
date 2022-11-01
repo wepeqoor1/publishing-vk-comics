@@ -1,5 +1,6 @@
 import json
 
+
 class VKCodeExceptions(Exception):
     def __init__(self, message: dict):
         self.message = message

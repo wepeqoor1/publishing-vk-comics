@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from collections import namedtuple
 
 import requests
 
@@ -9,13 +9,7 @@ VK_VERSION_API = 5.131
 COMIC_IMG_NAME = 'comic.png'
 
 
-class UploadComicResponse(NamedTuple):
-    server: str
-    photo: str
-    hash_: str
-
-
-def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str | None:
+def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str:
     """Получает адресс для загрузки фото"""
     url = f'https://api.vk.com/method/photos.getWallUploadServer/'
     params = {
@@ -33,7 +27,7 @@ def get_address_for_upload_photo(vk_access_token: str, vk_group_id: str) -> str 
         return api_response.get('response')['upload_url']
 
 
-def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: str) -> UploadComicResponse:
+def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: str) -> tuple:
     """Загружает фото на сервер"""
     params = {
         'access_token': vk_access_token,
@@ -52,7 +46,7 @@ def upload_photo_to_server(vk_access_token: str, vk_group_id: str, upload_url: s
     if api_response.get('error'):
         raise VKCodeExceptions(api_response)
     else:
-        return UploadComicResponse(api_response['server'], api_response['photo'], api_response['hash'])
+        return api_response['server'], api_response['photo'], api_response['hash']
 
 
 def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str, server: str, hash_: str) -> str:
