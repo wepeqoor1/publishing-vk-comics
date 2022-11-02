@@ -3,7 +3,7 @@ import random
 import requests
 
 
-def get_last_comic() -> tuple:
+def get_image_link_and_description_comic() -> tuple:
     last_comic_url = f"https://xkcd.com/info.0.json"
     response = requests.get(last_comic_url)
     response.raise_for_status()
