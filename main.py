@@ -30,32 +30,35 @@ def main():
     comic_img_url, comic_comment = get_image_link_and_description_comic()
 
     upload_url = get_address_for_upload_photo(
-        vk_access_token=vk_access_token,
-        vk_group_id=vk_group_id,
+        vk_access_token,
+        vk_group_id,
     )
     if not upload_url:
         print('Не удалось получить адрес загрузки фото')
 
     try:
-        download_img(url=comic_img_url)
+        download_img(comic_img_url)
         server, photo, hash_ = upload_photo_to_server(
-            vk_access_token=vk_access_token,
-            vk_group_id=vk_group_id,
-            upload_url=upload_url,
+            vk_access_token,
+            vk_group_id,
+            upload_url,
         )
     finally:
         os.remove(COMIC_IMG_NAME)
 
     attachment = save_photo_in_album_group(
-        vk_group_id=vk_group_id, vk_access_token=vk_access_token,
-        photo=photo, server=server, hash_=hash_
+        vk_group_id,
+        vk_access_token,
+        photo,
+        server,
+        hash_
     )
 
     publish_comic_on_wall(
-        vk_access_token=vk_access_token,
-        vk_group_id=vk_group_id,
-        message=comic_comment,
-        attachments=attachment
+        vk_access_token,
+        vk_group_id,
+        comic_comment,
+        attachment
     )
 
 
