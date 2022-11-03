@@ -1,6 +1,5 @@
 import os
 
-import requests
 from dotenv import load_dotenv
 
 from vk_api import (
@@ -9,16 +8,9 @@ from vk_api import (
     save_photo_in_album_group,
     publish_comic_on_wall
 )
-from xkcd_api import get_image_link_and_description_comic
+from xkcd_api import download_random_comic
 
 COMIC_IMG_NAME = 'comic.png'
-
-
-def download_img(url: str) -> None:
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(COMIC_IMG_NAME, 'wb') as file:
-        file.write(response.content)
 
 
 def main():
@@ -26,8 +18,6 @@ def main():
 
     vk_access_token = os.getenv('VK_ACCESS_TOKEN')
     vk_group_id = os.getenv('VK_GROUP_ID')
-
-    comic_img_url, comic_comment = get_image_link_and_description_comic()
 
     upload_url = get_address_for_upload_photo(
         vk_access_token,
@@ -37,7 +27,7 @@ def main():
         print('Не удалось получить адрес загрузки фото')
 
     try:
-        download_img(comic_img_url)
+        comic_comment = download_random_comic(COMIC_IMG_NAME)
         server, photo, hash_ = upload_photo_to_server(
             vk_access_token,
             vk_group_id,
@@ -60,6 +50,7 @@ def main():
         comic_comment,
         attachment
     )
+    print('Запись опубликована на стене')
 
 
 if __name__ == '__main__':

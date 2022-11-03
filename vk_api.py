@@ -53,7 +53,7 @@ def save_photo_in_album_group(vk_group_id: str, vk_access_token: str, photo: str
     """
     Сохраняет картинку в альбоме группы ВК
     """
-    url = 'https://api.vk.com/method/photos.saveWallPhot'
+    url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'access_token': vk_access_token,
         'group_id': vk_group_id,

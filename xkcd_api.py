@@ -3,7 +3,7 @@ import random
 import requests
 
 
-def get_image_link_and_description_comic() -> tuple:
+def download_random_comic(image_name: str) -> str:
     last_comic_url = f"https://xkcd.com/info.0.json"
     response = requests.get(last_comic_url)
     response.raise_for_status()
@@ -15,4 +15,9 @@ def get_image_link_and_description_comic() -> tuple:
     response.raise_for_status()
     comic = response.json()
 
-    return comic['img'], comic['alt']
+    response = requests.get(comic['img'])
+    response.raise_for_status()
+    with open(image_name, 'wb') as file:
+        file.write(response.content)
+
+    return comic['alt']
